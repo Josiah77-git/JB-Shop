@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="512x512-icons.png">
+    <link rel="manifest" href="manifest.json">
+    <script src="https://cdn.jsdelivr.net/npm/dexie@latest/dist/dexie.min.js"></script>
+    <title>J B Shopping App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #ff6347;
+        }
+        .product-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        .product {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px;
+            text-align: center;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 200px; /* Fixed width for uniformity */
+        }
+        .product img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #218838;
+        }
+        #cart {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+        #total {
+            font-weight: bold;
+            color: #ff6347;
+        }
+        #receiptPopup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border: 1px solid #ddd;
+            padding: 20px;
+            z-index: 1000;
+            width: 300px; /* Fixed width for receipt */
+        }
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+    </style>
+</head>
+    <script>
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js')
+    .then(() => console.log("Service Worker Registered"))
+    .catch(err => console.log("Service Worker Registration Failed", err));
+}
+</script>
+<body>
+
+<h1>J B Shopping App</h1>
+
+<div class="product-container">
+    <div class="product">
+        <h2>Out of Africa Macadamia 250g</h2>
+        <img src="outofAfrica.jpg.png" alt="Out of Africa Macadamia 250g">
+        <p>Price: Ksh. 527.00</p>
+        <button class="button" onclick="addToCart('Out of Africa Macadamia 250g', 527.00)">Add to Cart</button>
+    </div>
+
+    <div class="product">
+        <h2>Out of Africa Cashewnuts 250g</h2>
+        <img src="outofAfrica.jpg.png" alt="Out of Africa Cashewnuts 250g">
+        <p>Price: Ksh. 527.00</p>
+        <button class="button" onclick="addToCart('Out of Africa Cashewnuts 250g', 612.00)">Add to Cart</button>
+    </div>
+
+    <div class="product">
+        <h2>Out of Africa Mixed Kernels 250g</h2>
+        <img src="outofAfrica.jpg.png" alt="Out of Africa Cashewnuts 250g">
+        <p>Price: Ksh. 650.00</p>
+        <button class="button" onclick="addToCart('Out of Africa Mixed Kernels 250g', 650.00)">Add to Cart</button>
+    </div>
+
+    <div class="product">
+        <h2>Out of Africa Honey Coated Macadamia 250g</h2>
+        <img src="outofAfrica.jpg.png" alt="Out of Africa Cashewnuts 250g">
+        <p>Price: Ksh. 676.00</p>
+        <button class="button" onclick="addToCart('Out of Africa Honey Coated 250g', 676.00)">Add to Cart</button>
+    </div>
+
+    <div class="product">
+        <h2>Nutfields Peanuts 80g</h2>
+        <img src="nutfields.jpg.png" alt="Nutfields Peanuts 80g">
+        <p>Price: Ksh. 129.00</p>
+        <button class="button" onclick="addToCart('Nutfields Peanuts 80g', 129.00)">Add to Cart</button>
+    </div>
+
+    <div class="product">
+        <h2>Nutfields Cashewnuts 250g</h2>
+        <img src="nutfields.jpg.png" alt="Nutfields Cashewnuts 250g">
+        <p>Price: Ksh. 509.00</p>
+        <button class="button" onclick="addToCart('Nutfields Cashewnuts 250g', 509.00)">Add to Cart</button>
+    </div>
+
+    <div class="product">
+        <h2>Nutfields Macadamia 250g</h2>
+        <img src="nutfields.jpg.png" alt="Nutfields Macadamia 250g">
+        <p>Price: Ksh. 516.00</p>
+        <button class="button" onclick="addToCart('Nutfields Macadamia 250g', 516.00)">Add to Cart</button>
+    </div>
+
+    <div class="product">
+        <h2>Nutfields Mixed Kernels 250g</h2>
+        <img src="nutfields.jpg.png" alt="Nutfields Mixed Kernels 250g">
+        <p>Price: Ksh. 616.00</p>
+        <button class="button" onclick="addToCart('Nutfields Mixed Kernels 250g', 616.00)">Add to Cart</button>
+    </div>
+
+    <div class="product">
+        <h2>Morendat Meat 1Kg</h2>
+        <img src="morendat.jpg.png" alt="Morendat Meat 1Kg">
+        <p>Price: Ksh. 598.00</p>
+        <button class="button" onclick="addToCart('Morendat Meat 1Kg', 598.00)">Add to Cart</button>
+    </div>
+
+    <div class="product">
+        <h2>Morendat Lamb 1Kg</h2>
+        <img src="morendat.jpg.png" alt="Morendat Lamb 1Kg">
+        <p>Price: Ksh. 658.00</p>
+        <button class="button" onclick="addToCart('Morendat Lamb 1Kg', 658.00)">Add to Cart</button>
+    </div>
+
+    <div class="product">
+        <h2>Leleshwa Rosé 700ml</h2>
+        <img src="Leleshwa Ros`e.png" alt="Leleshwa Rosé 700ml">
+        <p>Price: Ksh. 1,250.00</p>
+        <button class="button" onclick="addToCart('Leleshwa Rosé 700ml', 1500.00)">Add to Cart</button>
+    </div>
+    
+    <div class="product">
+        <h2>Chenin Blanc Wine 700ml</h2>
+        <img src="Chenin Blanc.png" alt="Chenin Blanc Wine 700ml">
+        <p>Price: Ksh. 1,400.00</p>
+        <button class="button" onclick="addToCart('Chenin Blanc 700ml', 1400.00)">Add to Cart</button>
+    </div>
+
+    <div class="product">
+        <h2>Sauvignon Blanc 700ml</h2>
+        <img src="Sauvignon Blanc.png" alt="Sauvignon Blanc 700ml">
+        <p>Price: Ksh. 1,700.00</p>
+        <button class="button" onclick="addToCart('Sauvignon Blanc 700ml', 1700.00)">Add to Cart</button>
+    </div>
+</div>
+
+<div id="cart">
+    <h2>Your Cart</h2>
+    <ul id="cartItems"></ul>
+    <p id="total">Total: Ksh. 0</p>
+    <button class="button" onclick="showHistory()">Show History</button>
+    <button class="button" onclick="pay()">Pay</button>
+</div>
+
+<div id="overlay"></div>
+<div id="receiptPopup">
+    <h2>Receipt</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Total Price</th>
+            </tr>
+        </thead>
+        <tbody id="receiptItems"></tbody>
+    </table>
+    <p id="receiptTotal">Total: Ksh. 0</p>
+    <button class="button" onclick="printReceipt()">Print Receipt</button>
+    <button class="button" onclick="closePopup()">Close</button>
+</div>
+
+<script>
+    let cart = [];
+ let totalPrice = 0;
+
+    function addToCart(productName, price) {
+        const existingItem = cart.find(item => item.name === productName);
+        if (existingItem) {
+            existingItem.quantity++;
+            existingItem.price += price;
+        } else {
+            cart.push({ name: productName, price: price, quantity: 1 });
+        }
+        totalPrice += price;
+        updateCart();
+    }
+
+    function updateCart() {
+        const cartItems = document.getElementById('cartItems');
+        cartItems.innerHTML = '';
+        cart.forEach(item => {
+            const li = document.createElement('li');
+            li.textContent = `${item.name} - Ksh.${item.price.toFixed(2)} (Qty: ${item.quantity})`;
+            cartItems.appendChild(li);
+        });
+        document.getElementById('total').textContent = `Total: Ksh.${totalPrice.toFixed(2)}`;
+    }
+
+    function showHistory() {
+        const receiptItems = document.getElementById('receiptItems');
+        receiptItems.innerHTML = '';
+        let receiptTotal = 0;
+
+        cart.forEach(item => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td>${item.name}</td><td>${item.quantity}</td><td>Ksh.${(item.price / item.quantity).toFixed(2)}</td><td>Ksh.${item.price.toFixed(2)}</td>`;
+            receiptItems.appendChild(tr);
+            receiptTotal += item.price;
+        });
+
+        document.getElementById('receiptTotal').textContent = `Total: Ksh.${receiptTotal.toFixed(2)}`;
+        document.getElementById('overlay').style.display = 'block';
+        document.getElementById('receiptPopup').style.display = 'block';
+    }
+
+    function closePopup() {
+        document.getElementById('overlay').style.display = 'none';
+        document.getElementById('receiptPopup').style.display = 'none';
+    }
+
+    function printReceipt() {
+        window.print();
+    }
+
+    function pay() {
+        if (cart.length === 0) {
+            alert("Your cart is empty. Please add items to your cart before proceeding to pay.");
+        } else {
+            showHistory();
+        }
+    }
+</script>
+
+<script>
+    // Initialize Dexie
+    const db = new Dexie("ShoppingDatabase");
+
+    // Define a table schema
+    db.version(1).stores({
+        cart: "++productName, price"
+    });
+
+    // Open the database
+    db.open().catch((err) => {
+        console.error("Failed to open the database: ", err);
+    });
+</script>
+
+</body>
+</html>
