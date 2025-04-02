@@ -3,12 +3,12 @@
   "name": "J B Shopping Application",
   "icons": [
     {
-      "src": "icons-192x192",
+      "src": "icons-192x192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "512x512-icons",
+      "src": "512x512-icons.png",
       "type": "image/png",
       "sizes": "512x512"
     }
