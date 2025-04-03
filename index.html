@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="512x512-icons.png">
+    <link rel="icon" href="KNC_50Yrs_Primary-Logo.png">
     <link rel="manifest" href="manifest.json">
     <script src="https://cdn.jsdelivr.net/npm/dexie@latest/dist/dexie.min.js"></script>
     <title>J B Shopping App</title>
@@ -84,13 +84,82 @@
             background-color: rgba(0, 0, 0, 0.5);
             z-index: 999;
         }
-    </style>
+        #receiptPopup {
+        /* Existing styles */
+        width: 320px; /* Adjusted width for better fit */
+        font-family: monospace; /* Change font for a receipt look */
+    }
+    #receiptPopup h2 {
+        text-align: center;
+    }
+    #receiptPopup table {
+        width: 100%; 
+        margin: 10px 0;
+    }
+    #receiptPopup td, #receiptPopup th {
+        text-align: left;
+    }
+</style>
+
+<div id="receiptPopup">
+    <h2>J B Shop</h2>
+    <img src="KNC_50Yrs_Primary-Logo.png" alt="Shop Logo" style="width: 50px; height: auto; display: block; margin: 0 auto;" />
+    <p>Address: P.O Box 85, Thika</p>
+    <p>Tel: 0756383558</p>
+    <p>***************************</p>
+    <h3>CASH RECEIPT</h3>
+    <p>***************************</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody id="receiptItems"></tbody>
+    </table>
+    <p>***************************</p>
+    <p>Total: <span id="receiptTotal">Ksh. 0</span></p>
+    <p>***************************</p>
+    <button class="button" onclick="printReceipt()">Print Receipt</button>
+    <button class="button" onclick="closePopup()">Close</button>
+</div>
+
+<script>
+    function showHistory() {
+        const receiptItems = document.getElementById('receiptItems');
+        receiptItems.innerHTML = '';
+        let receiptTotal = 0;
+
+        cart.forEach(item => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td>${item.name} (Qty: ${item.quantity})</td><td>Ksh.${item.price.toFixed(2)}</td>`;
+            receiptItems.appendChild(tr);
+            receiptTotal += item.price;
+        });
+
+        // Update total in receipt
+        document.getElementById('receiptTotal').textContent = `Ksh.${receiptTotal.toFixed(2)}`;
+
+        // Sample cash and change calculation
+        const cashAmount = totalPrice; // Assuming user will pay exactly totalPrice
+        const changeAmount = cashAmount - receiptTotal;
+
+        document.getElementById('cashInput').textContent = `Ksh.${cashAmount.toFixed(2)}`;
+        document.getElementById('changeOutput').textContent = `Ksh.${changeAmount.toFixed(2)}`;
+
+        document.getElementById('overlay').style.display = 'block';
+        document.getElementById('receiptPopup').style.display = 'block';
+    }
+</script>
+    
 </head>
     <script>
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('service-worker.js')
-    .then(() => console.log("Service Worker Registered"))
-    .catch(err => console.log("Service Worker Registration Failed", err));
+    window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+   
+});
 }
 </script>
 <body>
@@ -108,7 +177,7 @@ if ('serviceWorker' in navigator) {
     <div class="product">
         <h2>Out of Africa Cashewnuts 250g</h2>
         <img src="outofAfrica.jpg.png" alt="Out of Africa Cashewnuts 250g">
-        <p>Price: Ksh. 612.00</p>
+        <p>Price: Ksh. 527.00</p>
         <button class="button" onclick="addToCart('Out of Africa Cashewnuts 250g', 612.00)">Add to Cart</button>
     </div>
 
@@ -129,8 +198,8 @@ if ('serviceWorker' in navigator) {
     <div class="product">
         <h2>Nutfields Peanuts 80g</h2>
         <img src="nutfields.jpg.png" alt="Nutfields Peanuts 80g">
-        <p>Price: Ksh. 229.00</p>
-        <button class="button" onclick="addToCart('Nutfields Peanuts 80g', 229.00)">Add to Cart</button>
+        <p>Price: Ksh. 129.00</p>
+        <button class="button" onclick="addToCart('Nutfields Peanuts 80g', 129.00)">Add to Cart</button>
     </div>
 
     <div class="product">
@@ -172,7 +241,7 @@ if ('serviceWorker' in navigator) {
         <h2>Leleshwa Rosé 700ml</h2>
         <img src="Leleshwa Ros`e.png" alt="Leleshwa Rosé 700ml">
         <p>Price: Ksh. 1,250.00</p>
-        <button class="button" onclick="addToCart('Leleshwa Rosé 700ml', 1250.00)">Add to Cart</button>
+        <button class="button" onclick="addToCart('Leleshwa Rosé 700ml', 1500.00)">Add to Cart</button>
     </div>
     
     <div class="product">
@@ -281,7 +350,7 @@ if ('serviceWorker' in navigator) {
 
 <script>
     // Initialize Dexie
-    const db = new Dexie("ShoppingDatabase");
+    const db = new Dexie("JShoppingDatabase");
 
     // Define a table schema
     db.version(1).stores({
@@ -292,6 +361,27 @@ if ('serviceWorker' in navigator) {
     db.open().catch((err) => {
         console.error("Failed to open the database: ", err);
     });
+
+    // Move this script to the end of the body
+    const itemForm = document.getElementById('itemForm');
+    itemForm.onsubmit = async (event) => {
+        event.preventDefault();
+
+        const name = document.getElementById('productName').value; 
+        const price = document.getElementById('price').value; 
+
+        // Add item to the database
+        await db.cart.add({ productName: name, price: price });
+
+        // Populate items div (assuming you have a function for this)
+        const populateItemsDiv = async () => {
+            const allItems = await db.cart.toArray();
+            // Logic to display items
+        };
+
+        populateItemsDiv();
+        itemForm.reset();
+    };
 </script>
 
 </body>
