@@ -99,6 +99,39 @@
     #receiptPopup td, #receiptPopup th {
         text-align: left;
     }
+    #morendat-section {
+        position: relative;
+        background-image: url('m-logo.png'); 
+        background-size: contain; 
+        background-position: center; 
+        background-repeat: no-repeat; 
+        padding: 100px 0; 
+    }
+    #Out-section {
+        position: relative;
+        background-image: url('ooa-logo3.png'); 
+        background-size: contain; 
+        background-position: center; 
+        background-repeat: no-repeat; 
+        padding: 100px 0; 
+    }
+    #nutfield-section {
+        position: relative;
+        background-image: url('Nf-logo.png'); 
+        background-size: contain; 
+        background-position: center; 
+        background-repeat: no-repeat; 
+        padding: 100px 0; 
+    }
+    #leleshwa-section {
+        position: relative;
+        background-image: url('leleshwa-logo1.png'); 
+        background-size: contain; 
+        background-position: center; 
+        background-repeat: no-repeat; 
+        padding: 100px 0; 
+    }
+
 </style>
 
 <div id="receiptPopup">
@@ -126,6 +159,18 @@
     <button class="button" onclick="printReceipt()">Print Receipt</button>
     <button class="button" onclick="closePopup()">Close</button>
 </div>
+<script>
+    function printPDF() {
+    const element = document.getElementById('receipt'); 
+    html2pdf(element, {
+        margin: 10,
+        filename: 'receipt.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    });
+}
+</script>
 
 <script>
     function showHistory() {
@@ -154,6 +199,28 @@
         document.getElementById('receiptPopup').style.display = 'block';
     }
 </script>
+<script>
+    function generateReceipt(cartItems) {
+    let receiptItems = document.getElementById("receipt-items");
+    let totalAmount = 0;
+
+    receiptItems.innerHTML = ""; // Clear existing content
+
+    cartItems.forEach(item => {
+        let row = `<tr>
+            <td>${item.name}</td>
+            <td>${item.quantity}</td>
+            <td>Ksh. ${item.price.toFixed(2)}</td>
+            <td>Ksh. ${(item.quantity * item.price).toFixed(2)}</td>
+        </tr>`;
+        receiptItems.innerHTML += row;
+        totalAmount += item.quantity * item.price;
+    });
+
+    document.getElementById("receipt-total").innerText = totalAmount.toFixed(2);
+}
+
+</script>
     
 </head>
     <script>
@@ -169,6 +236,7 @@ if ('serviceWorker' in navigator) {
 <h1>J B Shopping App</h1>
 
 <!-- Out of Africa Products -->
+<section id="Out-section">
 <h2></h2>
 <img src="ooa-logo3.png" alt="Shop Logo" style="width: 300px; height: auto; display: block; margin: 0 auto;" />
 <div class="product-container">
@@ -200,8 +268,10 @@ if ('serviceWorker' in navigator) {
         <button class="button" onclick="addToCart('Out of Africa Honey Coated 250g', 676.00)">Add to Cart</button>
     </div>
 </div>
+</section>
 
 <!-- Nutfields Products -->
+<section id="nutfield-section">
 <h2></h2>
 <img src="Nf-logo.png" alt="Shop Logo" style="width: 300px; height: auto; display: block; margin: 0 auto;" />
 <div class="product-container">
@@ -233,51 +303,126 @@ if ('serviceWorker' in navigator) {
         <button class="button" onclick="addToCart('Nutfields Mixed Kernels 250g', 616.00)">Add to Cart</button>
     </div>
 </div>
+</section>
 
 <!-- Morendat Products -->
+<section id="morendat-section">
 <h2></h2>
 <img src="m-logo.png" alt="Shop Logo" style="width: 300px; height: auto; display: block; margin: 0 auto;" />
 <div class="product-container">
     <div class="product">
-        <h3>Morendat Meat 1Kg</h3>
-        <img src="morendat.jpg.png" alt="Morendat Meat 1Kg">
-        <p>Price: Ksh. 598.00</p>
-        <button class="button" onclick="addToCart('Morendat Meat 1Kg', 598.00)">Add to Cart</button>
+        <h3>Aged Beef Cubes</h3>
+        <img src="agedbeefcubes-400x240.jpg" alt="Aged Beef Cubes">
+        <p>Price: Ksh. 850.00</p>
+        <button class="button" onclick="addToCart('Aged Beef Cubes', 850.00)">Add to Cart</button>
     </div>
 
     <div class="product">
-        <h3>Morendat Lamb 1Kg</h3>
-        <img src="morendat.jpg.png" alt="Morendat Lamb 1Kg">
-        <p>Price: Ksh. 658.00</p>
-        <button class="button" onclick="addToCart('Morendat Lamb 1Kg', 658.00)">Add to Cart</button>
+        <h3>Aged Beef Mince</h3>
+        <img src="agedmince-400x240.jpg" alt="Aged Beef Mince">
+        <p>Price: Ksh. 850.00</p>
+        <button class="button" onclick="addToCart('Aged Beef Mince', 850.00)">Add to Cart</button>
+    </div>
+
+    <div class="product">
+        <h3>Fresh Beef Bones</h3>
+        <img src="beefbones-400x240.jpg" alt="Fresh Beef Bones">
+        <p>Price: Ksh. 60.00</p>
+        <button class="button" onclick="addToCart('Fresh Beef Bones', 60.00)">Add to Cart</button>
+    </div>
+
+    <div class="product">
+        <h3>Beef Fat</h3>
+        <img src="beeffat-400x240.jpg" alt="Beef Fat">
+        <p>Price: Ksh. 110.00</p>
+        <button class="button" onclick="addToCart('Beef Fat', 110.00)">Add to Cart</button>
+    </div>
+
+    <div class="product">
+        <h3>Shin</h3>
+        <img src="shin-400x240.jpg" alt="Beef Fat">
+        <p>Price: Ksh. 1,200.00</p>
+        <button class="button" onclick="addToCart('Shin', 1200.00)">Add to Cart</button>
+    </div>
+
+    <div class="product">
+        <h3>Silver Side</h3>
+        <img src="silverside-400x240.jpg" alt="Silver Side">
+        <p>Price: Ksh. 2,200.00</p>
+        <button class="button" onclick="addToCart('Silver Side',2200.00)">Add to Cart</button>
+    </div>
+
+    <div class="product">
+        <h3>Beef Ranch/Rump</h3>
+        <img src="beefranch-400x240.jpg" alt="Beef Ranch">
+        <p>Price: Ksh. 2,200.00</p>
+        <button class="button" onclick="addToCart('Beef Ranch',2200.00)">Add to Cart</button>
+    </div>
+
+    <div class="product">
+        <h3>Top Side</h3>
+        <img src="topside-400x240.jpg" alt="Top Side">
+        <p>Price: Ksh. 2,200.00</p>
+        <button class="button" onclick="addToCart('Top Side',2200.00)">Add to Cart</button>
+    </div>
+
+    <div class="product">
+        <h3>Osso Bucco</h3>
+        <img src="ossobucco-400x240.jpg" alt="Top Side">
+        <p>Price: Ksh. 650.00</p>
+        <button class="button" onclick="addToCart('Osso Bucco',650.00)">Add to Cart</button>
     </div>
 </div>
+</section>
 
 <!-- Wine Products -->
+<section id="leleshwa-section">
 <h2></h2>
 <img src="leleshwa-logo1.png" alt="Shop Logo" style="width: 300px; height: auto; display: block; margin: 0 auto;" />
 <div class="product-container">
     <div class="product">
         <h3>Leleshwa Rosé 700ml</h3>
-        <img src="Leleshwa Ros`e.png" alt="Leleshwa Rosé 700ml">
+        <img src="Leleshwa-Rose-Small.png" alt="Leleshwa Rosé 700ml">
         <p>Price: Ksh. 1,250.00</p>
         <button class="button" onclick="addToCart('Leleshwa Rosé 700ml', 1500.00)">Add to Cart</button>
     </div>
 
     <div class="product">
-        <h3>Chenin Blanc Wine 700ml</h3>
-        <img src="Chenin Blanc.png" alt="Chenin Blanc Wine 700ml">
+        <h3>Merlot Shiraz Wine 700ml</h3>
+        <img src="Merlot-Shiraz-Small.png" alt="Merlot Shiraz 700ml">
         <p>Price: Ksh. 1,400.00</p>
-        <button class="button" onclick="addToCart('Chenin Blanc 700ml', 1400.00)">Add to Cart</button>
+        <button class="button" onclick="addToCart('Merlot Shiraz 700ml', 1400.00)">Add to Cart</button>
+    </div>
+
+    <div class="product">
+        <h3>Sweet Wine 700ml</h3>
+        <img src="Sauvignon-Blanc-Small.png" alt="Sweet Wine 700ml">
+        <p>Price: Ksh. 1,500.00</p>
+        <button class="button" onclick="addToCart('Sweet Wine 700ml', 1500.00)">Add to Cart</button>
+    </div>
+
+    <div class="product">
+        <h3>Chenin Blanc Wine 700ml</h3>
+        <img src="Sauvignon-Blanc-Small.png" alt="Chenin Blanc Wine 700ml">
+        <p>Price: Ksh. 1,650.00</p>
+        <button class="button" onclick="addToCart('Chenin Blanc 700ml', 1650.00)">Add to Cart</button>
     </div>
 
     <div class="product">
         <h3>Sauvignon Blanc 700ml</h3>
-        <img src="Sauvignon Blanc.png" alt="Sauvignon Blanc 700ml">
+        <img src="Sauvignon-Blanc-Small.png" alt="Sauvignon Blanc 700ml">
         <p>Price: Ksh. 1,700.00</p>
         <button class="button" onclick="addToCart('Sauvignon Blanc 700ml', 1700.00)">Add to Cart</button>
     </div>
+
+    <div class="product">
+        <h3>Leleshwa Vodka 700ml</h3>
+        <img src="vodkaleleshwa_medium1.png" alt="Merlot Shiraz 700ml">
+        <p>Price: Ksh. 1,400.00</p>
+        <button class="button" onclick="addToCart('Merlot Shiraz 700ml', 1400.00)">Add to Cart</button>
+    </div>
 </div>
+</section>
 
 
 <div id="cart">
