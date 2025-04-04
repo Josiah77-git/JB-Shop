@@ -24,6 +24,14 @@
             justify-content: space-around;
             flex-wrap: wrap;
         }
+        .product-container :hover{
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            border: #218838;
+            background-color: #28a745;
+            box-shadow: #333;
+        }
         .product {
             border: 1px solid #ddd;
             border-radius: 5px;
@@ -39,6 +47,7 @@
             height: auto;
             border-radius: 5px;
         }
+       
         .button {
             background-color: #28a745;
             color: white;
@@ -49,7 +58,7 @@
             transition: background-color 0.3s;
         }
         .button:hover {
-            background-color: #218838;
+            background-color: #7a6b0a;
         }
         #cart {
             margin-top: 20px;
@@ -72,7 +81,7 @@
             border: 1px solid #ddd;
             padding: 20px;
             z-index: 1000;
-            width: 300px; /* Fixed width for receipt */
+            width: 300px; 
         }
         #overlay {
             display: none;
@@ -239,6 +248,7 @@ if ('serviceWorker' in navigator) {
 <section id="Out-section">
 <h2></h2>
 <img src="ooa-logo3.png" alt="Shop Logo" style="width: 300px; height: auto; display: block; margin: 0 auto;" />
+<h2>Out of Africa is one of the leading producers of nuts, tea, chocolates and coffee in East Africa. Using sustainable agriculture methods, we produce roasted coffee, green coffee, chocolate, tea, nuts &amp;oils.  View our full range of Out of Africa Products at <a title="Out Of Africa" href="https://outofafrica.co.ke" target="_blank" rel="noopener">outofafrica</a></h2>>
 <div class="product-container">
     <div class="product">
         <h3>Out of Africa Macadamia 250g</h3>
@@ -257,6 +267,7 @@ if ('serviceWorker' in navigator) {
     <div class="product">
         <h3>Out of Africa Mixed Kernels 250g</h3>
         <img src="outofAfrica.jpg.png" alt="Out of Africa Cashewnuts 250g">
+        <p>Our wide range of nuts is guaranteed to caress your taste buds. Each snack is meticulously cared for from the farm to the tip of your tongue.</p>
         <p>Price: Ksh. 650.00</p>
         <button class="button" onclick="addToCart('Out of Africa Mixed Kernels 250g', 650.00)">Add to Cart</button>
     </div>
@@ -264,6 +275,7 @@ if ('serviceWorker' in navigator) {
     <div class="product">
         <h3>Out of Africa Honey Coated Macadamia 250g</h3>
         <img src="outofAfrica.jpg.png" alt="Out of Africa Cashewnuts 250g">
+        <p>Our wide range of nuts is guaranteed to caress your taste buds. Each snack is meticulously cared for from the farm to the tip of your tongue.</p>
         <p>Price: Ksh. 676.00</p>
         <button class="button" onclick="addToCart('Out of Africa Honey Coated 250g', 676.00)">Add to Cart</button>
     </div>
@@ -274,6 +286,7 @@ if ('serviceWorker' in navigator) {
 <section id="nutfield-section">
 <h2></h2>
 <img src="Nf-logo.png" alt="Shop Logo" style="width: 300px; height: auto; display: block; margin: 0 auto;" />
+<h2>Nutfields range of nuts provides you with remarkable quality of nuts affordably, conveniently packed to satisfy your delectable taste buds. They come packaged in salted and unsalted cashew, macadamia and mixed nuts.</h2>
 <div class="product-container">
     <div class="product">
         <h3>Nutfields Peanuts 80g</h3>
@@ -309,6 +322,8 @@ if ('serviceWorker' in navigator) {
 <section id="morendat-section">
 <h2></h2>
 <img src="m-logo.png" alt="Shop Logo" style="width: 300px; height: auto; display: block; margin: 0 auto;" />
+<h2>Our journey began north of the fresh waters of Lake Naivasha, in the fabled Great Rift Valley. With decades of experience from their professions, Morendat’s expert team of livestock farmers, butchers and chefs began by specially crossbreeding steers from a thorough selection of Black Angus, local Boran, Charolais cattle and Simmental, as the genesis of creating the most superior beef.</h2>
+<h2>At the farm, our cattle are feedlot reared and nourished with an especially rich assortment of choice grains and the mineral-rich clear waters of the Great Rift Valley, resulting in Morendat’s signature marbled, tender and flavoursome beef. View our full range at <a title="Morendat" href="https://morendatfarm.com" target="_blank" rel="noopener">morendatfarm.com</a></h2>
 <div class="product-container">
     <div class="product">
         <h3>Aged Beef Cubes</h3>
@@ -379,6 +394,8 @@ if ('serviceWorker' in navigator) {
 <section id="leleshwa-section">
 <h2></h2>
 <img src="leleshwa-logo1.png" alt="Shop Logo" style="width: 300px; height: auto; display: block; margin: 0 auto;" />
+<h2>Leleshwa wines capture the essence of the untamed Kenyan spirit. It’s the creative element that drives us, binds us, and unites us. As Kenyans, we continually seek opportunities to express ourselves beautifully, naturally, artistically. We found a way to nurture this irrepressible essence and put it in a bottle.</h2>
+<a title="leleshwa" href="https://leleshwa.com" target="_blank" rel="noopener">leleshwa.com</a>
 <div class="product-container">
     <div class="product">
         <h3>Leleshwa Rosé 700ml</h3>
