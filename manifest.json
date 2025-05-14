@@ -1,19 +1,19 @@
 {
-  "short_name": "JB-Shop",
-  "name": "J B Writes Shopping",
+  "short_name": "jb-Shop",
+  "name": "J B Shopping Application",
   "icons": [
     {
-      "src": "icons-192x192.png",
+      "src": "icons-192x192",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "512x512-icons.png",
+      "src": "512x512-icons",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
-  "start_url": "/JB-Shop",
+  "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ff6347",
